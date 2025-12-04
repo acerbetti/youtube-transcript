@@ -5,6 +5,11 @@ from unittest.mock import patch
 import pytest
 
 from app import app
+from youtube_transcript_api._errors import (
+    NoTranscriptFound,
+    TranscriptsDisabled,
+    VideoUnavailable,
+)
 
 
 @pytest.fixture
@@ -41,8 +46,6 @@ def test_transcript_success(client):
 
 def test_transcript_not_found(client):
     """Test transcript not found error."""
-    from youtube_transcript_api._errors import NoTranscriptFound
-
     with patch(
         "app.YouTubeTranscriptApi.get_transcript",
         side_effect=NoTranscriptFound("test_video_id", [], None),
@@ -55,8 +58,6 @@ def test_transcript_not_found(client):
 
 def test_transcript_disabled(client):
     """Test transcripts disabled error."""
-    from youtube_transcript_api._errors import TranscriptsDisabled
-
     with patch(
         "app.YouTubeTranscriptApi.get_transcript",
         side_effect=TranscriptsDisabled("test_video_id"),
@@ -69,8 +70,6 @@ def test_transcript_disabled(client):
 
 def test_video_unavailable(client):
     """Test video unavailable error."""
-    from youtube_transcript_api._errors import VideoUnavailable
-
     with patch(
         "app.YouTubeTranscriptApi.get_transcript",
         side_effect=VideoUnavailable("test_video_id"),
