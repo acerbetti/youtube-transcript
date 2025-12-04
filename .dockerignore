@@ -1,0 +1,11 @@
+.git
+.gitignore
+.pytest_cache
+__pycache__
+*.pyc
+*.pyo
+tests/
+requirements-dev.txt
+README.md
+LICENSE
+.github/
