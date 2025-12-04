@@ -10,6 +10,8 @@ from youtube_transcript_api._errors import (
 
 app = Flask(__name__)
 
+api = YouTubeTranscriptApi()
+
 
 @app.route("/health", methods=["GET"])
 def health():
@@ -28,8 +30,8 @@ def get_transcript(video_id):
         JSON response with transcript or error message.
     """
     try:
-        transcript = YouTubeTranscriptApi.get_transcript(video_id)
-        return jsonify({"video_id": video_id, "transcript": transcript})
+        transcript = api.fetch(video_id)
+        return jsonify({"video_id": video_id, "transcript": transcript.to_raw_data()})
     except NoTranscriptFound:
         return jsonify({"error": "No transcript found for this video"}), 404
     except TranscriptsDisabled:
